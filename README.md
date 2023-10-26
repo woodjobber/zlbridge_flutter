@@ -15,7 +15,7 @@ ZLBridge-flutter是为原生(android,ios)webview与JS提供数据交互更简单
 dependencies:
   zlbridge_flutter:
     git:
-      url: https://github.com/FPJack/ZLBridge-flutter
+      url: https://github.com/woodjobber/zlbridge_flutter.git
       path: zlbridge_flutter
 ```
 ## 初始化
