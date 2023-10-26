@@ -105,10 +105,6 @@ document.addEventListener('ZLBridgeInitReady', function() {
   ```
 ## ！！！！ flutter传给JS的值必须是可以json.encode转换的Object
 
-## Author
-
-范鹏, 2551412939@qq.com
-
 
 
 ## License
