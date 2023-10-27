@@ -3,19 +3,19 @@ import 'package:flutter/services.dart' show rootBundle;
 
 typedef JSCompletionHandler = void Function(Object? obj, String? error);
 typedef JSCallbackHandler = void Function(Object? obj, {bool end});
-typedef JSRegistHandler = void Function(
+typedef JSRegisterHandler = void Function(
     Object? obj, JSCallbackHandler? callback);
-typedef JSRegistUndefinedHandler = void Function(
+typedef JSRegisterUndefinedHandler = void Function(
     String? name, Object? obj, JSCallbackHandler? callback);
 
 class ZLBridge {
   static const String channelName = "ZLBridge";
-  Map<String, JSRegistHandler>? _registerHandlers;
+  Map<String, JSRegisterHandler>? _registerHandlers;
   Map<String, JSCompletionHandler>? _callHandlers;
-  JSRegistUndefinedHandler? _undefinedHandler;
+  JSRegisterUndefinedHandler? _undefinedHandler;
   Future<String> Function(String js)? _evaluateJavascriptFunc;
   ZLBridge() {
-    _registerHandlers = <String, JSRegistHandler>{};
+    _registerHandlers = <String, JSRegisterHandler>{};
     _callHandlers = <String, JSCompletionHandler>{};
   }
   void evaluateJavascriptAction(
@@ -40,7 +40,7 @@ class ZLBridge {
       }
       return;
     }
-    JSRegistHandler? registHandler = _registerHandlers?[name];
+    JSRegisterHandler? registerHandler = _registerHandlers?[name];
     callback(Object? result, {bool end = true}) {
       Map map = {};
       map["end"] = end ? 1 : 0;
@@ -51,8 +51,8 @@ class ZLBridge {
       _evaluateJavascriptFunc?.call(js);
     }
 
-    registHandler != null
-        ? registHandler(body, callback)
+    registerHandler != null
+        ? registerHandler(body, callback)
         : _undefinedHandler?.call(name, body, callback);
   }
 
@@ -70,12 +70,12 @@ class ZLBridge {
     });
   }
 
-  void registerHandler(String methodName, JSRegistHandler registHandler) {
+  void registerHandler(String methodName, JSRegisterHandler registHandler) {
     if (methodName.isEmpty) return;
     _registerHandlers?[methodName] = registHandler;
   }
 
-  void registerUndefinedHandler(JSRegistUndefinedHandler registHandler) {
+  void registerUndefinedHandler(JSRegisterUndefinedHandler registHandler) {
     _undefinedHandler = registHandler;
   }
 
